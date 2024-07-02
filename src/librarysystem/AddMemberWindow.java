@@ -129,6 +129,8 @@ public class AddMemberWindow extends JPanel implements LibWindow {
 
         AddMemberButtonListener(submitButton);
     }
+
+
     @Override
     public void init() {
         JFrame frame = new JFrame("Add Member Form");
@@ -137,7 +139,9 @@ public class AddMemberWindow extends JPanel implements LibWindow {
         frame.pack();
         frame.setMinimumSize(new Dimension(400, 400)); // Set a minimum size for the frame
         frame.setLocationRelativeTo(null);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        LibrarySystem.hideAllWindows();
+        LibrarySystem.INSTANCE.setVisible(true);
         //frame.add(new AddMemberWindow());
         isInitialized(true);
 

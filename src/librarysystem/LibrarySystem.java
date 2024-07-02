@@ -19,7 +19,7 @@ public class LibrarySystem extends JFrame implements LibWindow {
 	JPanel mainPanel;
 	JMenuBar menuBar;
     JMenu options;
-    JMenuItem login, allBookIds, allMemberIds, addMember;
+    JMenuItem login, allBookIds, allMemberIds, addMember, checkoutBook;
     String pathToImage;
     private boolean isInitialized = false;
     
@@ -28,7 +28,8 @@ public class LibrarySystem extends JFrame implements LibWindow {
 		LoginWindow.INSTANCE,
 		AllMemberIdsWindow.INSTANCE,	
 		AllBookIdsWindow.INSTANCE,
-			AddMemberWindow.INSTANCE
+			AddMemberWindow.INSTANCE,
+			CheckoutWindow.INSTANCE
 	};
     	
 	public static void hideAllWindows() {		
@@ -83,14 +84,31 @@ public class LibrarySystem extends JFrame implements LibWindow {
  	   allMemberIds.addActionListener(new AllMemberIdsListener());
 		addMember = new JMenuItem("Add Member");	//Asmaa Added
 		addMember.addActionListener(new AddMemberListner());
+		checkoutBook = new JMenuItem("Checkout Book");	//Asmaa Added
+		checkoutBook.addActionListener(new CheckoutBook());
  	   options.add(login);
  	   options.add(allBookIds);
  	   options.add(allMemberIds);
 		options.add(addMember);
+		options.add(checkoutBook);
     }
 
+	class CheckoutBook implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			LibrarySystem.hideAllWindows();
+			Auth currentAuth = SystemController.currentAuth;
+			if (currentAuth.equals(Auth.ADMIN)){
+				JOptionPane.showMessageDialog(checkoutBook,"User is not Authorized!");
+			}
+			else{
+				CheckoutWindow.INSTANCE.init();
+				Util.centerFrameOnDesktop(CheckoutWindow.INSTANCE);
+				CheckoutWindow.INSTANCE.setVisible(true);
+			}
+		}
+	}
 	class AddMemberListner implements ActionListener {
-
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			LibrarySystem.hideAllWindows();

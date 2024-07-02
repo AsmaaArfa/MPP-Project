@@ -1,7 +1,14 @@
 package librarysystem;
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
+
+import business.BookCopy;
+import business.Checkout;
+import business.LibraryMember;
 import business.SystemController;
+import dataaccess.Auth;
+
 public class CheckoutWindow extends JPanel implements LibWindow{
     public static final CheckoutWindow INSTANCE = new CheckoutWindow();
 
@@ -50,8 +57,22 @@ public class CheckoutWindow extends JPanel implements LibWindow{
     private void addCheckOutButtonListener() {
         checkOutButton.addActionListener(e -> {
             // Handle the check availability action here
+            SystemController systemController = new SystemController();
+            LibraryMember member = systemController.getMember(getMemberId());
 
-            SystemController systemController1 = new SystemController();
+            if (member == null){
+                JOptionPane.showMessageDialog(this, "Member ID is not exist");
+            }
+            else if (!systemController.getBook(getIsbn())){
+                JOptionPane.showMessageDialog(this, "The book is not available.");
+            }
+            else {
+                systemController.CheckoutBook(getIsbn(), member);
+                List<Checkout> checkouts = systemController.display(member.getCheckoutRecord());
+                CheckoutUI checkoutUI = new CheckoutUI(checkouts);
+                checkoutUI.display();
+            }
+
            // SystemController systemController1
            // boolean isAvailable = systemController.checkAvailability(getMemberId(), getIsbn());
 //            if (isAvailable) {
@@ -64,6 +85,7 @@ public class CheckoutWindow extends JPanel implements LibWindow{
 
     public void init() {
         JFrame frame = new JFrame("Check Out Form");
+        preparePanel();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.add(this);  // Add the current instance of CheckOutPanel to the frame
         frame.pack();  // Ensure components are at their preferred size
@@ -83,9 +105,6 @@ public class CheckoutWindow extends JPanel implements LibWindow{
 
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new CheckoutWindow().init());
-    }
 }
 
 
