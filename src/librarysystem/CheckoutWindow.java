@@ -51,7 +51,7 @@ public class CheckoutWindow extends JPanel implements LibWindow{
         checkOutButton.addActionListener(e -> {
             // Handle the check availability action here
 
-            SystemController systemController = new SystemController();
+            SystemController systemController1 = new SystemController();
            // SystemController systemController1
            // boolean isAvailable = systemController.checkAvailability(getMemberId(), getIsbn());
 //            if (isAvailable) {
